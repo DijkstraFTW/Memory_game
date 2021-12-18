@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 
@@ -10,6 +11,12 @@ import java.awt.event.ActionEvent;
  */
 public class Memory extends JFrame implements ActionListener {
 
+    protected ArrayList<String> cards = new ArrayList<String>();
+
+    protected ArrayList<String> game_cards = new ArrayList<String>();
+
+    protected int temp ;
+    
     protected int nb_succ;
     protected int nb_try;
 
@@ -20,6 +27,15 @@ public class Memory extends JFrame implements ActionListener {
 
 
     public Memory() {
+
+        // Constantes
+
+        cards.add("cards/monkey.png");
+        cards.add("cards/elephant.png");
+        cards.add("cards/girafe.png");
+        cards.add("cards/horse.png");
+        cards.add("cards/sheep.png");
+        cards.add("cards/snake.png");
 
 
         // LAYOUT
@@ -46,6 +62,10 @@ public class Memory extends JFrame implements ActionListener {
 
 
         JButton img1 = new JButton(new ImageIcon("qstmark.png")) ;
+        temp =  (int) Math.random() * 5;
+        game_cards.add(cards.get(temp));
+        //cards.remove(temp);
+        temp = 0;
         img1.addActionListener(this);
         center.add(img1);
 
@@ -129,9 +149,12 @@ public class Memory extends JFrame implements ActionListener {
     }
 
     private void flipCard(ActionEvent e) {
+        
         JButton curr_card = (JButton) e.getSource();
-        curr_card.setIcon(new ImageIcon("cardtest.png"));
+        int temp = (int) (5 * Math.random());
 
+        curr_card.setIcon(new ImageIcon(cards.get(temp)));
+        //setTitle("carte " + temp);
 
 
     }
