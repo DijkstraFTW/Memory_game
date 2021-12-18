@@ -38,7 +38,7 @@ public class Memory extends JFrame implements ActionListener {
         bottom.setLayout(new GridLayout(4, 3));
 
         for (int i = 0 ; i < 12 ; i++) {
-            JButton img = new JButton(new ImageIcon("test.png")) ;
+            JButton img = new JButton(new ImageIcon("qstmark.png")) ;
             center.add(img);
         }
         
