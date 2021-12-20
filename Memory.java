@@ -174,6 +174,8 @@ public class Memory extends JFrame implements ActionListener {
             timer.setRepeats(false);
             timer.start();
 
+
+
         }
     
 
