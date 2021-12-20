@@ -15,6 +15,8 @@ public class Memory extends JFrame implements ActionListener {
 
     protected ArrayList<String> game_cards = new ArrayList<String>();
 
+    protected ArrayList<Integer> nb_occur = new ArrayList<Integer>();
+
     protected int temp ;
     
     protected int nb_succ;
@@ -24,12 +26,16 @@ public class Memory extends JFrame implements ActionListener {
     protected JLabel nb_success;
 
 
-
-
     public Memory() {
 
-        // Constantes
+        // Initializing cards
 
+        cards.add("cards/monkey.png");
+        cards.add("cards/elephant.png");
+        cards.add("cards/girafe.png");
+        cards.add("cards/horse.png");
+        cards.add("cards/sheep.png");
+        cards.add("cards/snake.png");
         cards.add("cards/monkey.png");
         cards.add("cards/elephant.png");
         cards.add("cards/girafe.png");
@@ -45,7 +51,7 @@ public class Memory extends JFrame implements ActionListener {
         JPanel bottom = new JPanel() ;
 
 
-        // top
+        // TOP
 
         top.setLayout(new BorderLayout());
 
@@ -56,65 +62,73 @@ public class Memory extends JFrame implements ActionListener {
         top.add(message, BorderLayout.SOUTH) ;
 
 
-        // center
+        // CENTER
 
         bottom.setLayout(new GridLayout(4, 3));
 
 
-        JButton img1 = new JButton(new ImageIcon("qstmark.png")) ;
-        temp =  (int) Math.random() * 5;
-        game_cards.add(cards.get(temp));
-        //cards.remove(temp);
-        temp = 0;
+        JButton img1 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img1.setName("img1");
         img1.addActionListener(this);
         center.add(img1);
 
-        JButton img2 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img2 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img2.setName("img2");
         img2.addActionListener(this);
         center.add(img2);
 
-        JButton img3 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img3 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img3.setName("img3");
         img3.addActionListener(this);
         center.add(img3);
 
-        JButton img4 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img4 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img4.setName("img4");
         img4.addActionListener(this);
         center.add(img4);
 
-        JButton img5 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img5 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img5.setName("img5");
         img5.addActionListener(this);
         center.add(img5);
 
-        JButton img6 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img6 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img6.setName("img6");
         img6.addActionListener(this);
         center.add(img6);
 
-        JButton img7 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img7 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img7.setName("img7");
         img7.addActionListener(this);
         center.add(img7);
 
-        JButton img8 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img8 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img8.setName("img8");
         img8.addActionListener(this);
         center.add(img8);
 
-        JButton img9 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img9 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img9.setName("img9");
         img9.addActionListener(this);
         center.add(img9);
 
-        JButton img10 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img10 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img10.setName("img10");
         img10.addActionListener(this);
         center.add(img10);
 
-        JButton img11 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img11 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img11.setName("img11");
         img11.addActionListener(this);
         center.add(img11);
 
-        JButton img12 = new JButton(new ImageIcon("qstmark.png")) ;
+        JButton img12 = new JButton(new ImageIcon("cards/qstmark.png")) ;
+        img12.setName("img12");
         img12.addActionListener(this);
         center.add(img12);
 
         
-        // bottom 
+        // BOTTOM 
 
         nb_success = new JLabel("           Nombre de réponses correctes : " + nb_succ);
         nb_tries = new JLabel("Nombre d'essais : " + nb_try + "                    ");
@@ -128,6 +142,17 @@ public class Memory extends JFrame implements ActionListener {
         this.add(center, BorderLayout.CENTER) ;
         this.add(bottom, BorderLayout.SOUTH) ;
 
+
+        // Setting game_cards
+        
+        for (int i = 0 ; i < 12 ; i++) {
+            temp =  (int) (cards.size() * Math.random());
+            game_cards.add(cards.get(temp));
+            cards.remove(temp);
+        }
+
+        System.out.println("\ngame : " + game_cards);
+        System.out.println("cards : " + cards);
     }
 
 
@@ -138,7 +163,8 @@ public class Memory extends JFrame implements ActionListener {
 
         this.update();
         
-        this.flipCard(e);      
+        this.flipCard(e);  
+        
     }
 
     public void update() {
@@ -151,11 +177,26 @@ public class Memory extends JFrame implements ActionListener {
     private void flipCard(ActionEvent e) {
         
         JButton curr_card = (JButton) e.getSource();
-        int temp = (int) (5 * Math.random());
+        //Timer timer = new Timer(200, null);
 
-        curr_card.setIcon(new ImageIcon(cards.get(temp)));
-        //setTitle("carte " + temp);
+        switch (curr_card.getName()) {
 
+            case "img1" :   curr_card.setIcon(new ImageIcon(game_cards.get(0)));
+                            curr_card.setIcon(new ImageIcon("cards/qstmark.png")); 
+                            break;
+            case "img2" : curr_card.setIcon(new ImageIcon(game_cards.get(1))); break;
+            case "img3" : curr_card.setIcon(new ImageIcon(game_cards.get(2))); break;
+            case "img4" : curr_card.setIcon(new ImageIcon(game_cards.get(3))); break;
+            case "img5" : curr_card.setIcon(new ImageIcon(game_cards.get(4))); break;
+            case "img6" : curr_card.setIcon(new ImageIcon(game_cards.get(5))); break;
+            case "img7" : curr_card.setIcon(new ImageIcon(game_cards.get(6))); break;
+            case "img8" : curr_card.setIcon(new ImageIcon(game_cards.get(7))); break;
+            case "img9" : curr_card.setIcon(new ImageIcon(game_cards.get(8))); break;
+            case "img10" : curr_card.setIcon(new ImageIcon(game_cards.get(9))); break;
+            case "img11" : curr_card.setIcon(new ImageIcon(game_cards.get(10))); break;
+            case "img12" : curr_card.setIcon(new ImageIcon(game_cards.get(11))); break;
+
+        }    
 
     }
 
@@ -166,8 +207,6 @@ public class Memory extends JFrame implements ActionListener {
         
         game.setTitle(" Memory Game");
 
-        
-        
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setSize(1200, 750);
         game.setVisible(true);
