@@ -15,9 +15,11 @@ public class Memory extends JFrame implements ActionListener {
 
     protected ArrayList<String> game_cards = new ArrayList<String>();
 
-    protected ArrayList<String> guesses = new ArrayList<String>();
+    protected ArrayList<JButton> guesses = new ArrayList<JButton>();
 
     protected int temp ;
+    protected JButton tempB;
+    protected int tempBindex ;
     
     protected int nb_succ;
     protected int nb_try;
@@ -179,9 +181,7 @@ public class Memory extends JFrame implements ActionListener {
             timer.setRepeats(false);
             timer.start();
 
-
-
-            System.out.println("guesses : " + guesses);
+            //System.out.println("guesses : " + guesses);
 
         }
 
@@ -224,7 +224,7 @@ public class Memory extends JFrame implements ActionListener {
 
             }  
             
-            guesses.add(game_cards.get(value));
+            guesses.add(curr_card);
         
         }
     }
@@ -264,18 +264,53 @@ public class Memory extends JFrame implements ActionListener {
 
             if (guesses.size() == 2) {
 
-                    if (guesses.get(0).equals(guesses.get(1))) {
-                        System.out.println("success");
-                    } 
-                    else {
-                        System.out.println("failure");
-                    }
-                }
-            
-                //guesses.clear();
+                tempB = guesses.get(0);
 
+                String temp = tempB.getName();
+                tempBindex = (int) temp.charAt(temp.length() - 1) - 49;
+    
+                switch (tempB.getName()) {
+                    case "img10": tempBindex = 9; break;
+                    case "img11": tempBindex = 10; break;
+                    case "img12": tempBindex = 11; break;
+                }
+
+
+                JButton b1 = guesses.get(1);
+
+                String temp1 = b1.getName();
+                int value = (int) temp1.charAt(temp1.length() - 1) - 49;
+    
+                switch (b1.getName()) {
+                    case "img10": value = 9; break;
+                    case "img11": value = 10; break;
+                    case "img12": value = 11; break;
+                }
+
+
+                if ((game_cards.get(value)).equals(game_cards.get(tempBindex))) {
+                        
+                    System.out.println("success");
+                    
+                    System.out.println(tempB == null);
+
+                    correct_pair(b1, tempB);
+                } 
+                else {
+                    System.out.println("failure");
+                }
             }
         }
+        }
+
+    private void correct_pair(JButton b1, JButton b2) {
+
+        b1.setIcon(new ImageIcon("cards/blank.png"));
+        b2.setIcon(new ImageIcon("cards/blank.png"));
+
+        nb_succ++;
+        update();
+    }
 
     
     public static void main(String[] args) {
