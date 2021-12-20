@@ -15,8 +15,6 @@ public class Memory extends JFrame implements ActionListener {
 
     protected ArrayList<String> game_cards = new ArrayList<String>();
 
-    protected ArrayList<Integer> nb_occur = new ArrayList<Integer>();
-
     protected int temp ;
     
     protected int nb_succ;
@@ -155,19 +153,31 @@ public class Memory extends JFrame implements ActionListener {
         System.out.println("cards : " + cards);
     }
 
+    
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+            nb_try++;
 
-        nb_try++;
-
-        this.update();
+            this.update();
         
-        this.flipCard(e);  
-        
-    }
+            this.flipCard(e); 
 
-    public void update() {
+            Timer timer = new Timer(1500, new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    coverCard(e);
+                }
+            });
+
+            timer.setRepeats(false);
+            timer.start();
+
+        }
+    
+
+    private void update() {
         
         nb_tries.setText("Nombre d'essais : " + nb_try + "                    ");
 
@@ -175,30 +185,57 @@ public class Memory extends JFrame implements ActionListener {
     }
 
     private void flipCard(ActionEvent e) {
+
+        if (e.getSource() instanceof JButton) {
         
-        JButton curr_card = (JButton) e.getSource();
-        //Timer timer = new Timer(200, null);
+            JButton curr_card = (JButton) e.getSource();
 
-        switch (curr_card.getName()) {
+            switch (curr_card.getName()) {
 
-            case "img1" :   curr_card.setIcon(new ImageIcon(game_cards.get(0)));
-                            curr_card.setIcon(new ImageIcon("cards/qstmark.png")); 
-                            break;
-            case "img2" : curr_card.setIcon(new ImageIcon(game_cards.get(1))); break;
-            case "img3" : curr_card.setIcon(new ImageIcon(game_cards.get(2))); break;
-            case "img4" : curr_card.setIcon(new ImageIcon(game_cards.get(3))); break;
-            case "img5" : curr_card.setIcon(new ImageIcon(game_cards.get(4))); break;
-            case "img6" : curr_card.setIcon(new ImageIcon(game_cards.get(5))); break;
-            case "img7" : curr_card.setIcon(new ImageIcon(game_cards.get(6))); break;
-            case "img8" : curr_card.setIcon(new ImageIcon(game_cards.get(7))); break;
-            case "img9" : curr_card.setIcon(new ImageIcon(game_cards.get(8))); break;
-            case "img10" : curr_card.setIcon(new ImageIcon(game_cards.get(9))); break;
-            case "img11" : curr_card.setIcon(new ImageIcon(game_cards.get(10))); break;
-            case "img12" : curr_card.setIcon(new ImageIcon(game_cards.get(11))); break;
+                case "img1" : curr_card.setIcon(new ImageIcon(game_cards.get(0))); break;
+                case "img2" : curr_card.setIcon(new ImageIcon(game_cards.get(1))); break;
+                case "img3" : curr_card.setIcon(new ImageIcon(game_cards.get(2))); break;
+                case "img4" : curr_card.setIcon(new ImageIcon(game_cards.get(3))); break;
+                case "img5" : curr_card.setIcon(new ImageIcon(game_cards.get(4))); break;
+                case "img6" : curr_card.setIcon(new ImageIcon(game_cards.get(5))); break;
+                case "img7" : curr_card.setIcon(new ImageIcon(game_cards.get(6))); break;
+                case "img8" : curr_card.setIcon(new ImageIcon(game_cards.get(7))); break;
+                case "img9" : curr_card.setIcon(new ImageIcon(game_cards.get(8))); break;
+                case "img10" : curr_card.setIcon(new ImageIcon(game_cards.get(9))); break;
+                case "img11" : curr_card.setIcon(new ImageIcon(game_cards.get(10))); break;
+                case "img12" : curr_card.setIcon(new ImageIcon(game_cards.get(11))); break;
 
-        }    
-
+            }     
+        
+        }
     }
+
+    private void coverCard(ActionEvent e) {
+
+        if (e.getSource() instanceof JButton) {
+        
+            JButton curr_card = (JButton) e.getSource();
+
+            switch (curr_card.getName()) {
+
+                case "img1" : curr_card.setIcon(new ImageIcon("cards/qstmark.png"));break;
+                case "img2" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img3" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img4" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img5" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img6" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img7" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img8" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img9" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img10" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img11" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+                case "img12" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
+
+        }
+    }
+    }
+
+
 
 
     public static void main(String[] args) {
@@ -212,6 +249,6 @@ public class Memory extends JFrame implements ActionListener {
         game.setVisible(true);
 
     }
-
+    
     
 }
