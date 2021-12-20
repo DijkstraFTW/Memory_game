@@ -15,6 +15,8 @@ public class Memory extends JFrame implements ActionListener {
 
     protected ArrayList<String> game_cards = new ArrayList<String>();
 
+    protected ArrayList<String> guesses = new ArrayList<String>();
+
     protected int temp ;
     
     protected int nb_succ;
@@ -167,7 +169,10 @@ public class Memory extends JFrame implements ActionListener {
                 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    //System.out.println("guesses : " + guesses);
+                    cardsCheck(e);
                     coverCard(e);
+
                 }
             });
 
@@ -176,8 +181,9 @@ public class Memory extends JFrame implements ActionListener {
 
 
 
+            System.out.println("guesses : " + guesses);
+
         }
-    
 
     private void update() {
         
@@ -191,6 +197,15 @@ public class Memory extends JFrame implements ActionListener {
         if (e.getSource() instanceof JButton) {
         
             JButton curr_card = (JButton) e.getSource();
+
+            String temp = curr_card.getName();
+            int value = (int) temp.charAt(temp.length() - 1) - 49;
+
+            switch (curr_card.getName()) {
+                case "img10": value = 9; break;
+                case "img11": value = 10; break;
+                case "img12": value = 11; break;
+            }
 
             switch (curr_card.getName()) {
 
@@ -207,7 +222,9 @@ public class Memory extends JFrame implements ActionListener {
                 case "img11" : curr_card.setIcon(new ImageIcon(game_cards.get(10))); break;
                 case "img12" : curr_card.setIcon(new ImageIcon(game_cards.get(11))); break;
 
-            }     
+            }  
+            
+            guesses.add(game_cards.get(value));
         
         }
     }
@@ -233,13 +250,34 @@ public class Memory extends JFrame implements ActionListener {
                 case "img11" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
                 case "img12" : curr_card.setIcon(new ImageIcon("cards/qstmark.png")); break;
 
+            }
+
+            if (guesses.size() >= 2) {
+                guesses.clear();
+            }
         }
     }
-    }
 
+    private void cardsCheck(ActionEvent e) {
 
+        if (e.getSource() instanceof JButton) {
 
+            if (guesses.size() == 2) {
 
+                    if (guesses.get(0).equals(guesses.get(1))) {
+                        System.out.println("success");
+                    } 
+                    else {
+                        System.out.println("failure");
+                    }
+                }
+            
+                //guesses.clear();
+
+            }
+        }
+
+    
     public static void main(String[] args) {
         
         Memory game = new Memory();
