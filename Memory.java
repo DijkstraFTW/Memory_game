@@ -19,10 +19,11 @@ public class Memory extends JFrame implements ActionListener {
 
     protected int temp ;
     protected JButton tempB;
-    protected int tempBindex ;
+    protected JButton button;
     
     protected int nb_succ;
     protected int nb_try;
+    protected int time;
 
     protected JLabel nb_tries;
     protected JLabel nb_success;
@@ -58,10 +59,12 @@ public class Memory extends JFrame implements ActionListener {
         top.setLayout(new BorderLayout());
 
         JLabel title = new JLabel("                                                                                                                                                       Bienvenue à Memory game");
-        JLabel message = new JLabel("                                                                                                                                             Choissisez deux cartes pour commencer !");
+        JLabel message = new JLabel("                                                                                                                                           Choissisez deux cartes pour commencer !");
+        //JLabel t = new JLabel("                                                                                                                                                                Temps écoulé :  " + time) ;
 
         top.add(title, BorderLayout.NORTH) ;
-        top.add(message, BorderLayout.SOUTH) ;
+        top.add(message, BorderLayout.CENTER) ;
+        //top.add(t, BorderLayout.SOUTH);
 
 
         // CENTER
@@ -153,6 +156,16 @@ public class Memory extends JFrame implements ActionListener {
             cards.remove(temp);
         }
 
+        // Timer clock = new Timer(1500, new ActionListener() {
+        //     @Override
+        //         public void actionPerformed(ActionEvent evt) {
+
+        //         }
+        // });
+
+        // clock.setRepeats(false);
+        // clock.start();
+
         System.out.println("\ngame : " + game_cards);
         System.out.println("cards : " + cards);
     }
@@ -171,11 +184,21 @@ public class Memory extends JFrame implements ActionListener {
                 
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    //System.out.println("guesses : " + guesses);
                     cardsCheck(e);
-                    coverCard(e);
+                    if (cardsCheck(e).size()!= 0 && e.getSource() instanceof JButton) {
+                        for (JButton b : cardsCheck(e)) {
+                            b.setIcon(new ImageIcon("cards/blank.png"));
+                            b.setEnabled(false);
+                        }
+                        nb_succ++;
+                        update();
+                    }
 
+                    else {
+                        coverCard(e);
+                    }
                 }
+
             });
 
             timer.setRepeats(false);
@@ -188,24 +211,25 @@ public class Memory extends JFrame implements ActionListener {
     private void update() {
         
         nb_tries.setText("Nombre d'essais : " + nb_try + "                    ");
+        nb_success.setText("           Nombre de réponses correctes : " + (nb_succ/2));
 
-        nb_success.setText("           Nombre de réponses correctes : " + nb_succ);
+        if (nb_succ == 12) {
+            this.win();
+        }
     }
+
+    private void win() {
+        System.out.println("You won !");
+        System.exit(0);
+
+    }
+
 
     private void flipCard(ActionEvent e) {
 
         if (e.getSource() instanceof JButton) {
         
             JButton curr_card = (JButton) e.getSource();
-
-            String temp = curr_card.getName();
-            int value = (int) temp.charAt(temp.length() - 1) - 49;
-
-            switch (curr_card.getName()) {
-                case "img10": value = 9; break;
-                case "img11": value = 10; break;
-                case "img12": value = 11; break;
-            }
 
             switch (curr_card.getName()) {
 
@@ -252,58 +276,59 @@ public class Memory extends JFrame implements ActionListener {
 
             }
 
-            if (guesses.size() >= 2) {
+            if (guesses.size() > 2) {
                 guesses.clear();
             }
         }
     }
 
-    private void cardsCheck(ActionEvent e) {
+    private ArrayList<JButton> cardsCheck(ActionEvent e) {
+
+        ArrayList<JButton> found = new ArrayList<JButton>();
+        found.clear();
 
         if (e.getSource() instanceof JButton) {
 
             if (guesses.size() == 2) {
 
                 tempB = guesses.get(0);
-
-                String temp = tempB.getName();
-                tempBindex = (int) temp.charAt(temp.length() - 1) - 49;
-    
-                switch (tempB.getName()) {
-                    case "img10": tempBindex = 9; break;
-                    case "img11": tempBindex = 10; break;
-                    case "img12": tempBindex = 11; break;
-                }
-
-
-                JButton b1 = guesses.get(1);
-
-                String temp1 = b1.getName();
-                int value = (int) temp1.charAt(temp1.length() - 1) - 49;
-    
-                switch (b1.getName()) {
-                    case "img10": value = 9; break;
-                    case "img11": value = 10; break;
-                    case "img12": value = 11; break;
-                }
-
+                int tempBindex = extract_position(tempB);
+                
+                button = guesses.get(1);
+                int value = extract_position(button);
 
                 if ((game_cards.get(value)).equals(game_cards.get(tempBindex))) {
-                        
-                    System.out.println("success");
-                    
-                    System.out.println(tempB == null);
+                    found.add(tempB);
+                    found.add(button);
 
-                    correct_pair(b1, tempB);
+                    return found ;
                 } 
                 else {
-                    System.out.println("failure");
+                    return found;
                 }
             }
-        }
+        }   
+            return found;
         }
 
+    private int extract_position(JButton button) {
+
+        String temp = button.getName();
+        int result = (int) temp.charAt(temp.length() - 1) - 49;
+    
+        switch (button.getName()) {
+            case "img10": result = 9; break;
+            case "img11": result = 10; break;
+            case "img12": result = 11; break;
+        }
+
+        return result;
+    }
+
+
     private void correct_pair(JButton b1, JButton b2) {
+
+        // TODO polymorphism ++
 
         b1.setIcon(new ImageIcon("cards/blank.png"));
         b2.setIcon(new ImageIcon("cards/blank.png"));
@@ -320,7 +345,7 @@ public class Memory extends JFrame implements ActionListener {
         game.setTitle(" Memory Game");
 
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        game.setSize(1200, 750);
+        game.setSize(1200, 760);
         game.setVisible(true);
 
     }
