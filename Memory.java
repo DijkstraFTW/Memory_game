@@ -180,33 +180,48 @@ public class Memory extends JFrame implements ActionListener {
         
             this.flipCard(e); 
 
-            Timer timer = new Timer(1500, new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    cardsCheck(e);
-                    if (cardsCheck(e).size()!= 0 && e.getSource() instanceof JButton) {
-                        for (JButton b : cardsCheck(e)) {
-                            b.setIcon(new ImageIcon("cards/blank.png"));
-                            b.setEnabled(false);
+
+                Timer timer = new Timer(1500, new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if (guesses.size() == 2) {
+                            if (cardsCheck(e).size() != 0 && e.getSource() instanceof JButton) {
+
+                                //System.out.println((cardsCheck(e).get(0)).getIcon());
+                                //System.out.println((cardsCheck(e).get(1)).getIcon());
+
+                                for (JButton b : cardsCheck(e)) {
+                                    b.setIcon(new ImageIcon("cards/blank.png"));
+                                    b.setEnabled(false);
+                                }
+                                
+                                nb_succ++;
+                                update();
+                            }
+
+                            else {
+                                //System.out.println("no");
+                                coverCard(e);
+                            }
+
                         }
-                        nb_succ++;
-                        update();
+                        else {
+                            coverCard(e);
+                        }
                     }
+                    
 
-                    else {
-                        coverCard(e);
-                    }
-                }
+                });
 
-            });
+                timer.setRepeats(false);
+                timer.start();
 
-            timer.setRepeats(false);
-            timer.start();
+                //System.out.println("finished");
 
-            //System.out.println("guesses : " + guesses);
+            }
 
-        }
+        
 
     private void update() {
         
@@ -276,7 +291,7 @@ public class Memory extends JFrame implements ActionListener {
 
             }
 
-            if (guesses.size() > 2) {
+            if (guesses.size() >= 2) {
                 guesses.clear();
             }
         }
@@ -296,6 +311,10 @@ public class Memory extends JFrame implements ActionListener {
                 
                 button = guesses.get(1);
                 int value = extract_position(button);
+
+                if (value == tempBindex) {
+                    return found;
+                }
 
                 if ((game_cards.get(value)).equals(game_cards.get(tempBindex))) {
                     found.add(tempB);
