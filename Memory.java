@@ -25,6 +25,8 @@ public class Memory extends JFrame implements ActionListener {
     protected int nb_try;
     protected int time;
 
+    protected int i;
+
     protected JLabel nb_tries;
     protected JLabel nb_success;
 
@@ -180,15 +182,28 @@ public class Memory extends JFrame implements ActionListener {
         
             this.flipCard(e); 
 
-
                 Timer timer = new Timer(1500, new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
 
                         ArrayList<JButton> temp = cardsCheck(e);
-                        
+
+                         System.out.print("Guesses :  ");
+                         for (JButton b : guesses) {
+                             System.out.print(b.getIcon() + " - ");
+                        }
+                        System.out.println("");
+
                         if (guesses.size() == 2) {
+
+                            for (JButton b : guesses) {
+                                if ((b.getIcon()) == new ImageIcon("cards/blank.png")) {
+                                    System.out.println("false");
+                                    guesses.remove(b);
+                                }
+                            }
+
                             if (temp.size() != 0 && e.getSource() instanceof JButton) {
 
                                 for (JButton b : temp) {
@@ -196,18 +211,28 @@ public class Memory extends JFrame implements ActionListener {
                                     b.setEnabled(false);
                                 }
                                 
+                                i++;
+                                System.out.println(i);
+
+                                if ( (i % 2) == 0 ) {
+                                    guesses.clear();
+                                }
+                                
                                 nb_succ++;
                                 update();
-                                guesses.clear();
                             }
-
                             else {
                                 coverCard(e);
+                                
                             }
 
                         }
                         else {
+                            if (isEnabled()){
                             coverCard(e);
+                            }
+                            else {
+                            }
                         }
                     }
                     
@@ -215,14 +240,14 @@ public class Memory extends JFrame implements ActionListener {
                 });
 
                 timer.setRepeats(false);
-                timer.start();
+                timer.start();                
             }
 
         
 
     private void update() {
         
-        nb_tries.setText("Nombre d'essais : " + nb_try + "                    ");
+        nb_tries.setText("Nombre d'essais : " + (nb_try /2) + "                    ");
         nb_success.setText("           Nombre de réponses correctes : " + (nb_succ/2));
 
         if (nb_succ == 12) {
@@ -300,11 +325,6 @@ public class Memory extends JFrame implements ActionListener {
         found.clear();
 
         if (e.getSource() instanceof JButton) {
-
-            for (JButton b : guesses) {
-                System.out.println(b.getIcon());
-            }
-            System.out.println("");
 
             if (guesses.size() == 2) {
 
