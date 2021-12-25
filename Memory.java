@@ -185,23 +185,23 @@ public class Memory extends JFrame implements ActionListener {
 
                     @Override
                     public void actionPerformed(ActionEvent evt) {
+
+                        ArrayList<JButton> temp = cardsCheck(e);
+                        
                         if (guesses.size() == 2) {
-                            if (cardsCheck(e).size() != 0 && e.getSource() instanceof JButton) {
+                            if (temp.size() != 0 && e.getSource() instanceof JButton) {
 
-                                //System.out.println((cardsCheck(e).get(0)).getIcon());
-                                //System.out.println((cardsCheck(e).get(1)).getIcon());
-
-                                for (JButton b : cardsCheck(e)) {
+                                for (JButton b : temp) {
                                     b.setIcon(new ImageIcon("cards/blank.png"));
                                     b.setEnabled(false);
                                 }
                                 
                                 nb_succ++;
                                 update();
+                                guesses.clear();
                             }
 
                             else {
-                                //System.out.println("no");
                                 coverCard(e);
                             }
 
@@ -216,9 +216,6 @@ public class Memory extends JFrame implements ActionListener {
 
                 timer.setRepeats(false);
                 timer.start();
-
-                //System.out.println("finished");
-
             }
 
         
@@ -303,6 +300,11 @@ public class Memory extends JFrame implements ActionListener {
         found.clear();
 
         if (e.getSource() instanceof JButton) {
+
+            for (JButton b : guesses) {
+                System.out.println(b.getIcon());
+            }
+            System.out.println("");
 
             if (guesses.size() == 2) {
 
