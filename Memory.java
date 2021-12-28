@@ -60,8 +60,8 @@ public class Memory extends JFrame implements ActionListener {
 
         top.setLayout(new BorderLayout());
 
-        JLabel title = new JLabel("                                                                                                                                                       Bienvenue à Memory game");
-        JLabel message = new JLabel("                                                                                                                                           Choissisez deux cartes pour commencer !");
+        JLabel title = new JLabel("                                                                                                                                                                          Bienvenue à Memory game");
+        JLabel message = new JLabel("                                                                                                                                                            Choissisez deux cartes pour commencer !");
         //JLabel t = new JLabel("                                                                                                                                                                Temps écoulé :  " + time) ;
 
         top.add(title, BorderLayout.NORTH) ;
@@ -168,8 +168,8 @@ public class Memory extends JFrame implements ActionListener {
         // clock.setRepeats(false);
         // clock.start();
 
-        System.out.println("\ngame : " + game_cards);
-        System.out.println("cards : " + cards);
+        // System.out.println("\ngame : " + game_cards);
+        // System.out.println("cards : " + cards);
     }
 
     
@@ -189,17 +189,16 @@ public class Memory extends JFrame implements ActionListener {
 
                         ArrayList<JButton> temp = cardsCheck(e);
 
-                         System.out.print("Guesses :  ");
-                         for (JButton b : guesses) {
-                             System.out.print(b.getIcon() + " - ");
-                        }
-                        System.out.println("");
+                        // System.out.print("Guesses :  ");
+                        // for (JButton b : guesses) {
+                        //     System.out.print(b.getIcon() + " - ");
+                        // }
+                        // System.out.println("");
 
                         if (guesses.size() == 2) {
 
                             for (JButton b : guesses) {
                                 if ((b.getIcon()) == new ImageIcon("cards/blank.png")) {
-                                    System.out.println("false");
                                     guesses.remove(b);
                                 }
                             }
@@ -212,7 +211,6 @@ public class Memory extends JFrame implements ActionListener {
                                 }
                                 
                                 i++;
-                                System.out.println(i);
 
                                 if ( (i % 2) == 0 ) {
                                     guesses.clear();
@@ -256,7 +254,8 @@ public class Memory extends JFrame implements ActionListener {
     }
 
     private void win() {
-        System.out.println("You won !");
+        System.out.println("Vous avez gagné !");
+        System.out.println("Nombre d'essais : " + nb_try );
         System.exit(0);
 
     }
@@ -365,19 +364,6 @@ public class Memory extends JFrame implements ActionListener {
 
         return result;
     }
-
-
-    private void correct_pair(JButton b1, JButton b2) {
-
-        // TODO polymorphism ++
-
-        b1.setIcon(new ImageIcon("cards/blank.png"));
-        b2.setIcon(new ImageIcon("cards/blank.png"));
-
-        nb_succ++;
-        update();
-    }
-
     
     public static void main(String[] args) {
         
